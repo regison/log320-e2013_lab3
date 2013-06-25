@@ -3,6 +3,7 @@ package interfaces;
 public interface IEvaluator {
 	
 	int evalutate();
+	int quadHeuristic();
 	int getPieceCount (int pieceColor);
 	int numberOfConnectedPiece(int pieceColor);
 	

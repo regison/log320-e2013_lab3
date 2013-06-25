@@ -52,4 +52,10 @@ public class BoardEvaluator implements IEvaluator {
 		return 0;
 	}
 
+	@Override
+	public int quadHeuristic() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

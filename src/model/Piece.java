@@ -11,22 +11,22 @@ import constants.LOAConstants;
  */
 public class Piece {
 
-	public char[] location;
+	public String location;
 	public int type;
 	
-	public Piece(char[] location , int type){
-		if(type != LOAConstants.PIECE_TYPE_BLACK && type != LOAConstants.PIECE_TYPE_WHITE)
+	public Piece(String location , int type){
+		if(type != LOAConstants.PIECE_TYPE_BLACK && type != LOAConstants.PIECE_TYPE_WHITE && type != LOAConstants.PIECE_TYPE_NULL)
 			throw new IllegalArgumentException("This type doesn't exist");
 		
 		this.type = type;
 		this.location = location;
 	}
 
-	public char[] getLocation() {
+	public String getLocation() {
 		return location;
 	}
 
-	public void setLocation(char[] location) {
+	public void setLocation(String location) {
 		this.location = location;
 	}
 
