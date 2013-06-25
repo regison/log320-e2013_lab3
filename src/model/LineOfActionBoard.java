@@ -33,10 +33,7 @@ public class LineOfActionBoard {
 				}
 				else{
 					loaBoard[rowNumber - 1][j] = new Piece(location,LOAConstants.PIECE_TYPE_NULL);
-				}
-				
-				
-				
+				}			
 			}
 			rowNumber++;
 		}		
