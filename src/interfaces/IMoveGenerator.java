@@ -1,9 +1,13 @@
 package interfaces;
 
 import java.util.ArrayList;
-
 import model.*;
 
+/**
+ * 
+ * @author Regison
+ *
+ */
 public interface IMoveGenerator {
 
 	/**
@@ -14,10 +18,13 @@ public interface IMoveGenerator {
 	boolean isValid(Move m);
 	/**
 	 * 
-	 * @param p
+	 * @param board
+	 * @param start
+	 * @param end
+	 * @param type
 	 * @return
 	 */
-	Move makeMove(Piece p);
+	Piece[][] makeMove( Piece board[][], String start, String end, int type );
 	/**
 	 * 
 	 * @param p
@@ -29,12 +36,15 @@ public interface IMoveGenerator {
 	 * @param board
 	 * @return
 	 */
-	ArrayList<Move> generatePossibleMoves(int[][]board);
+	ArrayList<Move> generatePossibleMoves(Piece[][]board, int type);
 	/**
 	 * 
 	 * @param board
 	 * @return
 	 */
-	ArrayList<Move> generatePossibleCaptures(int [][]board);
+	ArrayList<Move> generatePossibleCaptures(Piece [][]board, int type );
+	
+	int calculateDistance(int origin, int destination, int direction);
+	int getNumberOfPieceByDirection(Piece piece, int direction, Piece[][] board);
 	
 }
