@@ -3,11 +3,13 @@ package model;
 public class Move {
 	private char[] destination;
 	private char[] origin;
+	private int distance;
 	
 	
-	public Move(char[] origin, char [] destination){
+	public Move(char[] origin, char [] destination, int distance){
 		this.origin = origin;
-		this.destination = destination;		
+		this.destination = destination;	
+		this.distance = distance;
 	}
 
 	public char[] getDestination() {
@@ -24,5 +26,13 @@ public class Move {
 
 	public void setOrigin(char[] origin) {
 		this.origin = origin;
+	}
+
+	public int getDistance() {
+		return distance;
+	}
+
+	public void setDistance(int distance) {
+		this.distance = distance;
 	}
 }
