@@ -1,5 +1,7 @@
 package interfaces;
 
+import model.Piece;
+
 public interface IEvaluator {
 	
 	int evalutate();
@@ -21,7 +23,7 @@ public interface IEvaluator {
 	 */
 	int concentration(int pieceColor);
 	
-	int centralisation(int pieceColor);
+	int centralisation(String row, String colunm);
 	int centreDeMass(int pieceColor);
 	int quads();
 	int mobility(int pieceColor);

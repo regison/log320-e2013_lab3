@@ -4,7 +4,7 @@ import constants.LOAConstants;
 
 public class LineOfActionBoard {
 
-	private byte[] byteBoard;
+	
 	private Piece[][] loaBoard;
 	
 	public LineOfActionBoard(){
@@ -25,18 +25,18 @@ public class LineOfActionBoard {
 				String location = String.valueOf(columnLetter) + i;				
 				//First and last row
 				if ((i == 0 || i == 7) && (j != 0 && j !=7)){					
-					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_BLACK);
+					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_BLACK,0);
 				}
 				//First and last colunm
 				else 
 				   if (j==0 || j==7){
 					if (i !=0 && i !=7)
-					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_WHITE);
+					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_WHITE, 0);
 					else
-					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_NULL);						
+					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_NULL, 0);						
 				}
 				else{
-					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_NULL);
+					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_NULL, 0);
 				}			
 			}
 			

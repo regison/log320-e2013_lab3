@@ -27,6 +27,11 @@ public class LOAConstants {
 	public static final int UPPER_LEFT = 6;
 	public static final int BOTTOM_RIGHT = 7;
 	public static final int BOTTOM_LEFT = 8;
+
+	public static final int WEIGHT_ROW0_AND_7_COLUMNA_AND_H = 0;
+	public static final int WEIGHT_ROW1_AND_6_COLUMNB_AND_G = 1;
+	public static final int WEIGHT_ROW2_AND_5_COLUMNC_AND_F = 2;
+	public static final int WEIGHT_ROW3_AND_4_COLUMND_AND_E = 3;
 	
 	public static final byte BIT_BOARD_SIZE = 64;
 	public static final int BIT_BOARD_45 = 45;

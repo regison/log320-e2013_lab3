@@ -11,15 +11,16 @@ import constants.LOAConstants;
  */
 public class Piece {
 
-	public String location;
-	public int type;
-	
-	public Piece(String location , int type){
+	private String location;
+	private int type;
+	private int weigth;
+	public Piece(String location , int type, int weigth){
 		if(type != LOAConstants.PIECE_TYPE_BLACK && type != LOAConstants.PIECE_TYPE_WHITE && type != LOAConstants.PIECE_TYPE_NULL)
 			throw new IllegalArgumentException("This type doesn't exist");
 		
 		this.type = type;
 		this.location = location;
+		this.weigth = weigth;
 	}
 
 	public String getLocation() {

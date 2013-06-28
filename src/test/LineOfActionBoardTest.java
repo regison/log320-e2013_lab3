@@ -1,12 +1,12 @@
 package test;
 
-import static org.junit.Assert.*;
 
+import junit.framework.TestCase;
 import model.LineOfActionBoard;
 
 import org.junit.Test;
 
-public class LineOfActionBoardTest {
+public class LineOfActionBoardTest extends TestCase {
 
 	public LineOfActionBoardTest() {
 	}

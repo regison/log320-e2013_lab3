@@ -10,6 +10,11 @@ import interfaces.IMoveGenerator;
 
 public class MoveGenerator implements IMoveGenerator {
 
+	public ArrayList<Integer> horizontalMoves = new ArrayList<Integer>();
+	public ArrayList<Integer> verticalMoves = new ArrayList<Integer>();
+	public ArrayList<Integer> diagonal135Moves = new ArrayList<Integer>();
+	public ArrayList<Integer> diagonal45Moves = new ArrayList<Integer>();
+	
 	@Override
 	public boolean isValid(Move m) {
 		if (m.getDestination()[0] > LOAConstants.BOARD_LEFT_AND_BOTTOM_SIDE || 
@@ -93,7 +98,7 @@ public class MoveGenerator implements IMoveGenerator {
 		
 			switch( direction ){
 			
-			case LOAConstants.RIGHT: // means that we decrease the position and check if there any piece
+			case LOAConstants.RIGHT: // means that we decrease the colunm and check if there any piece
 				while (currentColunm < LOAConstants.BOARD_RIGHT_AND_UPPER_SIDE - 1 ){
 					if(board[currentRow][++currentColunm].getType() != LOAConstants.PIECE_TYPE_NULL)					
 						counter++;				
