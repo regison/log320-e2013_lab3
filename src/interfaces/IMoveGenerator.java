@@ -15,22 +15,26 @@ public interface IMoveGenerator {
 	 * @param m
 	 * @return
 	 */
-	boolean isValid(Move m);
+	boolean isMoveValid(Move m, int color, Piece[][] board);
 	/**
 	 * 
 	 * @param board
-	 * @param start
-	 * @param end
+	 * @param move
 	 * @param type
 	 * @return
 	 */
-	Piece[][] makeMove( Piece board[][], String start, String end, int type );
+	Piece[][] makeMove( Piece board[][], Move move, int type );
 	/**
 	 * 
-	 * @param p
+	 * @param board
+	 * @param i
+	 * @param j
+	 * @param direction
+	 * @param distance
+	 * @param playerColor
 	 * @return
 	 */
-	Move makeCaptureMove(Piece p);
+	Move createMoveByDirection(Piece[][] board, int i, int j, int direction, int distance, int playerColor);
 	/**
 	 * 
 	 * @param board
@@ -43,8 +47,14 @@ public interface IMoveGenerator {
 	 * @return
 	 */
 	ArrayList<Move> generatePossibleCaptures(Piece [][]board, int type );
-	
-	int calculateDistance(int origin, int destination, int direction);
-	int getNumberOfPieceByDirection(Piece piece, int direction, Piece[][] board);
+	/**
+	 * 
+	 * @param row
+	 * @param colunm
+	 * @param direction
+	 * @param board
+	 * @return
+	 */
+	int getNumberOfPieceByActionLine(int row, int colunm, int direction, Piece[][] board);
 	
 }

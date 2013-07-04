@@ -5,7 +5,7 @@ import model.Piece;
 public interface IEvaluator {
 	
 	int evalutate();
-	int quadHeuristic();
+	int quadsHeuristic(Piece[][] quads,Piece[][]board, int type);
 	int getPieceCount (int pieceColor);
 	int numberOfConnectedPiece(int pieceColor);
 	
@@ -25,7 +25,7 @@ public interface IEvaluator {
 	
 	int centralisation(String row, String colunm);
 	int centreDeMass(int pieceColor);
-	int quads();
+	
 	int mobility(int pieceColor);
 	
 }

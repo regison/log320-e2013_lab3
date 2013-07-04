@@ -1,30 +1,32 @@
 package model;
 
 public class Move {
-	private char[] destination;
-	private char[] origin;
+	private String destination;
+	private String origin;
 	private int distance;
+	private int weight;
 	
 	
-	public Move(char[] origin, char [] destination, int distance){
+	public Move(String origin, String destination, int distance, int weight){
 		this.origin = origin;
 		this.destination = destination;	
 		this.distance = distance;
+		this.weight = weight;
 	}
 
-	public char[] getDestination() {
+	public String getDestination() {
 		return destination;
 	}
 
-	public void setDestination(char[] destination) {
+	public void setDestination(String destination) {
 		this.destination = destination;
 	}
 
-	public char[] getOrigin() {
+	public String getOrigin() {
 		return origin;
 	}
 
-	public void setOrigin(char[] origin) {
+	public void setOrigin(String origin) {
 		this.origin = origin;
 	}
 
@@ -34,5 +36,13 @@ public class Move {
 
 	public void setDistance(int distance) {
 		this.distance = distance;
+	}
+
+	public int getWeight() {
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
 	}
 }

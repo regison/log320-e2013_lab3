@@ -25,18 +25,18 @@ public class LineOfActionBoard {
 				String location = String.valueOf(columnLetter) + i;				
 				//First and last row
 				if ((i == 0 || i == 7) && (j != 0 && j !=7)){					
-					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_BLACK,0);
+					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_BLACK);
 				}
 				//First and last colunm
 				else 
 				   if (j==0 || j==7){
 					if (i !=0 && i !=7)
-					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_WHITE, 0);
+					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_WHITE);
 					else
-					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_NULL, 0);						
+					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_NULL);						
 				}
 				else{
-					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_NULL, 0);
+					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_NULL);
 				}			
 			}
 			

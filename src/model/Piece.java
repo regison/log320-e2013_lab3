@@ -13,14 +13,14 @@ public class Piece {
 
 	private String location;
 	private int type;
-	private int weigth;
-	public Piece(String location , int type, int weigth){
+	
+	public Piece(String location , int type){
 		if(type != LOAConstants.PIECE_TYPE_BLACK && type != LOAConstants.PIECE_TYPE_WHITE && type != LOAConstants.PIECE_TYPE_NULL)
 			throw new IllegalArgumentException("This type doesn't exist");
 		
 		this.type = type;
 		this.location = location;
-		this.weigth = weigth;
+	
 	}
 
 	public String getLocation() {
