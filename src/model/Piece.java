@@ -13,6 +13,7 @@ public class Piece {
 
 	private String location;
 	private int type;
+	private int weight;
 	
 	public Piece(String location , int type){
 		if(type != LOAConstants.PIECE_TYPE_BLACK && type != LOAConstants.PIECE_TYPE_WHITE && type != LOAConstants.PIECE_TYPE_NULL)
@@ -21,6 +22,14 @@ public class Piece {
 		this.type = type;
 		this.location = location;
 	
+	}
+	public Piece(String location, int type, int weight){
+		if(type != LOAConstants.PIECE_TYPE_BLACK && type != LOAConstants.PIECE_TYPE_WHITE && type != LOAConstants.PIECE_TYPE_NULL)
+			throw new IllegalArgumentException("This type doesn't exist");
+		
+		this.type = type;
+		this.location = location;
+		this.weight = weight;
 	}
 
 	public String getLocation() {
@@ -37,5 +46,11 @@ public class Piece {
 
 	public void setType(int type) {
 		this.type = type;
+	}
+	public int getWeight() {
+		return weight;
+	}
+	public void setWeight(int weight) {
+		this.weight = weight;
 	}
 }

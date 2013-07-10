@@ -134,6 +134,7 @@ public class MoveGenerator implements IMoveGenerator {
 
 		if (  (i > LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE && i <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE)  &&
 		   (  j > LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE && j <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE )  ){			
+			
 			int weight = BoardEvaluator.centralisation(i, j);
 
 			return new Move ( Helpers.convertColunmIntToLetter( currentColunm ) + String.valueOf( currentRow ), 

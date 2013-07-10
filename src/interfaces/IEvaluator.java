@@ -6,8 +6,9 @@ public interface IEvaluator {
 	
 	int evalutate();
 	int quadsHeuristic(Piece[][] quads,Piece[][]board, int type);
-	int getPieceCount (int pieceColor);
-	int numberOfConnectedPiece(int pieceColor);
+	int getPieceCount (Piece[][] board, int pieceColor);
+	int numberOfConnectedPiece(int row, int colunm, Piece[][] board, int pieceColor);
+	boolean isConnectedPiece(int direction, int row, int colunm, Piece[][]board, int pieceColor);
 	
 	//The concentration of the pieces is calculated by a centre-of-mass approach
 	/**
@@ -21,11 +22,12 @@ public interface IEvaluator {
 	 * 	@param pieceColor
 	 * 	@return
 	 */
-	int concentration(int pieceColor);
+	int concentration(Piece[][] board, int pieceColor);
 	
-	int centralisation(String row, String colunm);
-	int centreDeMass(int pieceColor);
+	int centralisation(int row, int colunm);
+	int centreDeMass(Piece [][] board, int pieceColor);
 	
 	int mobility(int pieceColor);
+	boolean isGameEnded(Piece [][] board, int pieceColor);
 	
 }

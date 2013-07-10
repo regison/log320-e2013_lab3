@@ -22,16 +22,16 @@ public class LineOfActionBoard {
 			
 			for(int j=0; j<LOAConstants.BOARD_SIZE_WIDTH ; j++){	
 				char columnLetter = (char)(65 + j);// Start by 'A'				
-				String location = String.valueOf(columnLetter) + i;				
+				String location = String.valueOf(columnLetter) + (7 - i);				
 				//First and last row
 				if ((i == 0 || i == 7) && (j != 0 && j !=7)){					
-					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_BLACK);
+					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_BLACK, LOAConstants.WEIGHT_ROW0_AND_7_COLUMNA_AND_H);
 				}
 				//First and last colunm
 				else 
 				   if (j==0 || j==7){
 					if (i !=0 && i !=7)
-					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_WHITE);
+					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_WHITE, LOAConstants.WEIGHT_ROW0_AND_7_COLUMNA_AND_H);
 					else
 					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_NULL);						
 				}
