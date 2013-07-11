@@ -3,6 +3,8 @@ package utils;
 import java.io.*;
 import java.net.*;
 
+import model.LineOfActionBoard;
+
 
 class ServerConnection {
 	public static void main(String[] args) {
@@ -12,6 +14,8 @@ class ServerConnection {
 	BufferedOutputStream output;
     int[][] board = new int[8][8];
 	try {
+		LineOfActionBoard LOA_Board = new LineOfActionBoard();
+		
 		MyClient = new Socket("localhost", 8888);
 	   	input    = new BufferedInputStream(MyClient.getInputStream());
 		output   = new BufferedOutputStream(MyClient.getOutputStream());
