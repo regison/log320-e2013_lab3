@@ -6,12 +6,34 @@ import interfaces.IEvaluator;
 
 public class BoardEvaluator{
 
-	public int evalutate(Piece [][] board) {
+	public int evalutate(Piece [][] board, int pieceColor) {
 		
+		int boardValue = 0;
 		
-		// TODO Auto-generated method stub
+		double amountCurrentPlayerAtWall = wallConcentration(board, pieceColor);
+		double amountOtherPlayerAtWall = wallConcentration(board, Helpers.getOtherPlayerType(pieceColor));
 		
-		return 0;
+		double pieceAmountForCurrentPlayer = concentration(board, pieceColor);
+		double pieceAmountForOtherPlayer = concentration(board, Helpers.getOtherPlayerType(pieceColor));
+		
+		double pieceCurrentPlayerConnectedAmount = getNumberConnectedPiece(board, pieceColor);
+		double pieceOtherPlayerConnectedAmount = getNumberConnectedPiece(board, Helpers.getOtherPlayerType(pieceColor));
+		
+		double ratioCurrentPiece = (pieceCurrentPlayerConnectedAmount / LOAConstants.MAX_WHITE_PIECES);
+		double ratioOtherPiece = (pieceOtherPlayerConnectedAmount / LOAConstants.MAX_BLACK_PIECES);
+		
+		boardValue += (int) (ratioCurrentPiece - ratioOtherPiece);
+		boardValue += (int) (pieceAmountForCurrentPlayer - pieceAmountForOtherPlayer);
+		boardValue += ((LOAConstants.MAX_WHITE_PIECES - LOAConstants.MAX_BLACK_PIECES) * 500);
+		boardValue += (amountCurrentPlayerAtWall - amountOtherPlayerAtWall) * 300;
+		
+		if (pieceColor == LOAConstants.PIECE_TYPE_BLACK)
+			boardValue -= (amountCurrentPlayerAtWall * 800);
+		else
+			boardValue += (amountCurrentPlayerAtWall * 800);
+		
+			
+		return boardValue;
 	}
 
 	public int getPieceCount(Piece[][] board, int pieceColor) {
@@ -23,6 +45,53 @@ public class BoardEvaluator{
 					counter++;
 			}
 		return counter;
+	}
+	
+	public boolean isPieceAtWall(int i, int j){
+		if (i == LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE || i == LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE ||
+			j == LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE || j == LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE)
+			return true;
+		
+		return false;			
+	}
+	public int wallConcentration(Piece[][] board, int pieceColor){
+		int counter = 0;
+		for(int i=0; i< board.length; i++){
+			for(int j=0; j< board.length; j++){
+				if (board[i][j].getType() == pieceColor && isPieceAtWall(i, j))
+					counter++;
+			}
+		}
+		
+		return counter;
+	}
+	public int getNumberConnectedPiece(Piece[][] board, int pieceColor){
+		
+		int numberOfConnection = 0;
+		
+		if (pieceColor == LOAConstants.PIECE_TYPE_WHITE){
+			numberOfConnection = Integer.MAX_VALUE;
+		
+			for(int i=0; i< board.length; i++){
+				for(int j=0; j< board.length; j++){
+					if (board[i][j].getType() == pieceColor)
+						numberOfConnection = Math.max(numberOfConnection, numberOfConnectedPiece(i, j, board, pieceColor));
+				}
+			}
+		}
+		else if (pieceColor == LOAConstants.PIECE_TYPE_BLACK){
+			numberOfConnection = Integer.MIN_VALUE;
+			
+			for(int i=0; i< board.length; i++){
+				for(int j=0; j< board.length; j++){
+					if (board[i][j].getType() == pieceColor)
+						numberOfConnection = Math.min(numberOfConnection, numberOfConnectedPiece(i, j, board, pieceColor));
+				}
+			}
+		}
+		else throw new IllegalArgumentException("Wrong color");
+			
+		return numberOfConnection;
 	}
 	public int numberOfConnectedPiece(int row, int colunm, Piece[][] board, int pieceColor) {
 
@@ -105,10 +174,17 @@ public class BoardEvaluator{
 		}		
 		return false;
 	}
-
+	//Center of the board
 	public int concentration(Piece[][] board, int pieceColor) {
-		// TODO Auto-generated method stub
-		return 0;
+		int counter = 0;		
+		 for(int i = 0; i < LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE; i++){
+		  for(int j = 0; j < LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE; j++){
+			 if (board[i][j].getType() == pieceColor)
+				 counter++;
+			}
+		 }
+		 
+		return counter;
 	}
 
 	/* 
@@ -126,7 +202,14 @@ public class BoardEvaluator{
 			return LOAConstants.WEIGHT_ROW3_AND_4_COLUMND_AND_E;		
 	}
 
-	public int centreDeMass(Piece[][] board, int pieceColor) {
+	public boolean isInCentreOfMass(int row, int colunm){
+		if(row >= 2 && row <= 5 &&  colunm >= 2 && colunm <= 5)
+			return true;
+		
+		return false;
+	}
+	
+	public int centreOfMass(Piece[][] board, int pieceColor) {
 
 		
 		return 0;
