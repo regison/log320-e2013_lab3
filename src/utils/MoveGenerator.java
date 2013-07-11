@@ -105,30 +105,30 @@ public class MoveGenerator implements IMoveGenerator {
 			break;						
 
 		case LOAConstants.DOWN:// means that we decrease the row and check if there is any piece			
-			i += distance;
+			i -= distance;
 			break;
 
 		case LOAConstants.UP:// means that we increase the row and check if there is any piece			
-			i -= distance;						
+			i += distance;						
 			break;
 		case LOAConstants.UPPER_RIGHT:
 			j += distance;
-			i -= distance;
+			i += distance;
 			break;
 
 		case LOAConstants.UPPER_LEFT:
 			j -= distance;
-			i -= distance;
+			i += distance;
 			break;
 
 		case LOAConstants.BOTTOM_LEFT:
 			j -= distance;
-			i += distance;
+			i -= distance;
 			break;
 
 		case LOAConstants.BOTTOM_RIGHT:
 			j += distance;
-			i += distance;
+			i -= distance;
 			break;
 		}
 
@@ -161,8 +161,7 @@ public class MoveGenerator implements IMoveGenerator {
 		//Get the position of the current piece
 		int currentColunm = colunm;
 		int currentRow = row;
-
-
+		
 		//Variable for the diagonal
 		int startX = 0, startY = 0;
 
@@ -214,9 +213,9 @@ public class MoveGenerator implements IMoveGenerator {
 									
 					if(board[startX++][startY++].getType() != LOAConstants.PIECE_TYPE_NULL )							
 						counter++;
-				 }
-				
+				 }				
 				break;
+				
 			}			
 		}
 		return counter;
