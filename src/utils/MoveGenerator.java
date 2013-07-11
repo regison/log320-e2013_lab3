@@ -16,7 +16,7 @@ public class MoveGenerator implements IMoveGenerator {
 	public ArrayList<Integer> diagonal45Moves = new ArrayList<Integer>();
 
 	private ArrayList<Integer> possibleDirections =  new ArrayList<Integer>();
-	private ArrayList<Move> possibleCaptures = new ArrayList<Move>();
+//	private ArrayList<Move> possibleCaptures = new ArrayList<Move>();
 
 	public MoveGenerator(){
 		possibleDirections.add(LOAConstants.RIGHT);
