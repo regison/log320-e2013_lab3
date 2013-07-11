@@ -55,14 +55,14 @@ public class MoveGenerator implements IMoveGenerator {
 	public Piece[][] makeMove(Piece board[][], Move move, int type) {
 
 		int rowStart = Helpers.convertRowChartoInt(move.getOrigin().charAt(1));
-		int colunmStart = Helpers.convertRowChartoInt(move.getOrigin().charAt(0));
+		int colunmStart = Helpers.convertColunmCharToInt(move.getOrigin().charAt(0));
 
 		int rowEnd = Helpers.convertRowChartoInt(move.getDestination().charAt(1));
 		int colunmEnd = Helpers.convertColunmCharToInt(move.getDestination().charAt(0));
 
-		board[rowEnd][colunmEnd].setType( type );
+		board[8 - rowEnd][colunmEnd].setType( type );
 
-		board[rowStart][colunmStart].setType(  LOAConstants.PIECE_TYPE_NULL );
+		board[8 - rowStart][colunmStart].setType(  LOAConstants.PIECE_TYPE_NULL );
 
 		return board;
 	}
