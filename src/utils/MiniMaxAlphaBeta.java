@@ -32,7 +32,7 @@ public class MiniMaxAlphaBeta {
 		
 		double alpha = alphaValue(currentBoard, null, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 0);
 		
-		System.out.println("alpha:"+alpha);
+		System.out.println("alpha: "+alpha);
 		ArrayList<Move> moves = m.generatePossibleMoves(currentBoard, playerColor);
 		for(int i = 0; i < moves.size(); i++)
 		{
