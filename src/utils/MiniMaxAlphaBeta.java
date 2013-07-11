@@ -8,26 +8,31 @@ import model.Piece;
 public class MiniMaxAlphaBeta {
 
 	private Piece[][] returnedValue;
-	private Piece[][] originalBoard;
 	private int playerColor;
-	private Move bestMove;
 	MoveGenerator m = new MoveGenerator();
 	
-	public MiniMaxAlphaBeta(Piece[][] board, int playerColor)
-	{
-		this.originalBoard = board;
-		this.playerColor = playerColor;
-		alphaBeta();
-		System.out.println("Player color: " + playerColor);
+	public MiniMaxAlphaBeta(){
+		// create the item
 	}
 	
-	private void alphaBeta()
+	// calculate the best move for the current board and current player
+	public Move calculateBestMove(Piece[][] originalBoard, int playerColor)
 	{
 		Piece[][] currentBoard = originalBoard;
+		this.playerColor = playerColor;
+		
 		double alpha = alphaValue(currentBoard, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+		
 		ArrayList<Move> moves = m.generatePossibleMoves(currentBoard, playerColor);
-		Move currentMove = moves.get((int)alpha);
-		returnedValue = m.makeMove(originalBoard, currentMove, playerColor);
+		for(int i = 0; i < moves.size(); i++)
+		{
+			if(moves.get(i).getWeight() == (int)alpha)
+			{
+				return moves.get(i);
+			}
+		}
+		
+		return null;
 	}
 	
 	public Piece[][] getNewBoard()
@@ -37,11 +42,15 @@ public class MiniMaxAlphaBeta {
 	
 	private double alphaValue(Piece[][] board, double alpha, double beta)
 	{
+		ArrayList<Move> moves = m.generatePossibleMoves(board, playerColor);
+		
 		// if game state is a leaf node
-
+		if(moves.size() == 0)
+			return alpha;
+			//return m.generatePossibleMoves(board, playerColor).get(0).getWeight();
 		////
 		
-		double v = Double.NEGATIVE_INFINITY;
+		/*double v = Double.NEGATIVE_INFINITY;
 		for(int i = 0; i < 8; i++)
 		{
 			for(int j = 0; j < 8; j++)
@@ -68,17 +77,31 @@ public class MiniMaxAlphaBeta {
 					}
 				}
 			}
+		}*/
+		
+		double v = Double.NEGATIVE_INFINITY;
+		for(int i = 0; i < moves.size(); i++)
+		{
+			Piece[][] childBoard = m.makeMove(board, moves.get(i), playerColor);
+			v = Math.max(v, betaValue(childBoard, alpha, beta));
+			if(v >= beta)
+				return v;
+			alpha = Math.max(v, alpha);
 		}
+		
 		return v;
 	}
 	
 	private double betaValue(Piece[][] board, double alpha, double beta)
 	{
-		// if game state is a leaf node
+		ArrayList<Move> moves = m.generatePossibleMoves(board, playerColor);
 		
+		// if game state is a leaf node
+		if(moves.size() == 0)
+			return beta;
 		////
 		
-		double v = Double.POSITIVE_INFINITY;
+		/*double v = Double.POSITIVE_INFINITY;
 		for(int i = 0; i < 8; i++)
 		{
 			for(int j = 0; j < 8; j++)
@@ -105,7 +128,18 @@ public class MiniMaxAlphaBeta {
 					}
 				}
 			}
+		}*/
+		
+		double v = Double.POSITIVE_INFINITY;
+		for(int i = 0; i < moves.size(); i++)
+		{
+			Piece[][] childBoard = m.makeMove(board, moves.get(i), playerColor);
+			v = Math.min(v, alphaValue(childBoard, alpha, beta));
+			if(v <= alpha)
+				return v;
+			beta = Math.min(v, beta);
 		}
+		
 		return v;
 	}
 }
