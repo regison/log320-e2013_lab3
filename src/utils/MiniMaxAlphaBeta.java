@@ -9,6 +9,7 @@ public class MiniMaxAlphaBeta {
 
 	private Piece[][] returnedValue;
 	private int playerColor;
+	private int oppositePlayerColor;
 	MoveGenerator m = new MoveGenerator();
 	
 	public MiniMaxAlphaBeta(){
@@ -20,6 +21,12 @@ public class MiniMaxAlphaBeta {
 	{
 		Piece[][] currentBoard = originalBoard;
 		this.playerColor = playerColor;
+		
+		// put opposite color
+		if(playerColor == LOAConstants.PIECE_TYPE_BLACK)
+			this.oppositePlayerColor = LOAConstants.PIECE_TYPE_WHITE;
+		else
+			this.oppositePlayerColor = LOAConstants.PIECE_TYPE_BLACK;
 		
 		double alpha = alphaValue(currentBoard, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 		
@@ -94,7 +101,7 @@ public class MiniMaxAlphaBeta {
 	
 	private double betaValue(Piece[][] board, double alpha, double beta)
 	{
-		ArrayList<Move> moves = m.generatePossibleMoves(board, playerColor);
+		ArrayList<Move> moves = m.generatePossibleMoves(board, oppositePlayerColor);
 		
 		// if game state is a leaf node
 		if(moves.size() == 0)
@@ -133,7 +140,7 @@ public class MiniMaxAlphaBeta {
 		double v = Double.POSITIVE_INFINITY;
 		for(int i = 0; i < moves.size(); i++)
 		{
-			Piece[][] childBoard = m.makeMove(board, moves.get(i), playerColor);
+			Piece[][] childBoard = m.makeMove(board, moves.get(i), oppositePlayerColor);
 			v = Math.min(v, alphaValue(childBoard, alpha, beta));
 			if(v <= alpha)
 				return v;
