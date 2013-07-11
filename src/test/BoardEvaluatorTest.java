@@ -7,6 +7,8 @@ import model.LineOfActionBoard;
 
 import org.junit.Test;
 
+import constants.LOAConstants;
+
 import utils.BoardEvaluator;
 
 public class BoardEvaluatorTest extends TestCase{
@@ -19,7 +21,7 @@ public class BoardEvaluatorTest extends TestCase{
 	public void test() {
 		LineOfActionBoard board = new LineOfActionBoard();
 		BoardEvaluator eval = new BoardEvaluator();
-		System.out.println(eval.evalutate(board.getBoard()));
+		System.out.println(eval.evalutate(board.getBoard(),LOAConstants.PIECE_TYPE_BLACK));
 	}
 
 }

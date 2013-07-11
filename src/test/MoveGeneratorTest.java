@@ -25,12 +25,18 @@ public class MoveGeneratorTest {
 		MoveGenerator m = new MoveGenerator();
 		Piece p = b.getPiece("H3");
 		
-		System.out.print(m.getNumberOfPieceByActionLine(Helpers.convertRowChartoInt(p.getLocation().charAt(1)), 
+		System.out.println(m.getNumberOfPieceByActionLine(Helpers.convertRowChartoInt(p.getLocation().charAt(1)), 
 						 Helpers.convertColunmCharToInt(p.getLocation().charAt(0)),LOAConstants.BOTTOM_RIGHT, b.getBoard()));
 		
 		ArrayList<Move> moves = m.generatePossibleMoves(b.getBoard(), LOAConstants.PIECE_TYPE_BLACK);
+		
+		
 		 moves.addAll(m.generatePossibleMoves(b.getBoard(), LOAConstants.PIECE_TYPE_WHITE));
 		System.out.println(moves.size());
+		
+		for(Move move : moves){
+			 System.out.println(move.getOrigin() +"-"+move.getDestination());
+		 }
 		
 		
 	}

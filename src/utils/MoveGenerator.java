@@ -35,12 +35,13 @@ public class MoveGenerator implements IMoveGenerator {
 	 */
 	public boolean isMoveValid(Move m, int color, Piece[][] board) {		
 		if (m != null){
+			
 			int i = Helpers.convertRowChartoInt(m.getDestination().charAt(1));
 			int j = Helpers.convertColunmCharToInt(m.getDestination().charAt(0));
 			
-			if (( i > LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE || i < LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE - 1 ) || 
-					( j > LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE || j < LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE - 1 ) &&
-					board[i][j].getType() != color ){
+			if (( i > LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE || i <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE) || 
+					( j > LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE || j <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE  ) &&
+					board[i][j].getType() != color && m.getOrigin() != (m.getDestination())){
 				return true;
 			}
 		}
@@ -93,7 +94,7 @@ public class MoveGenerator implements IMoveGenerator {
 	public Move createMoveByDirection( Piece [][] board, int i, int j, int direction, int distance, int playerColor ){
 
 		int currentColunm = j;
-		int currentRow = i;
+		int currentRow =  i ;
 		switch(direction){
 
 		case LOAConstants.RIGHT: // means that we decrease the colunm and check if there any piece		
@@ -132,13 +133,13 @@ public class MoveGenerator implements IMoveGenerator {
 			break;
 		}
 
-		if (  (i > LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE && i <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE)  &&
-		   (  j > LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE && j <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE )  ){			
+		if (  (i >= LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE && i <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE - 1)  &&
+		   (  j >= LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE && j <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE - 1 )  ){			
 			
 			int weight = BoardEvaluator.centralisation(i, j);
 
-			return new Move ( Helpers.convertColunmIntToLetter( currentColunm ) + String.valueOf( currentRow ), 
-					Helpers.convertColunmIntToLetter( j ) + String.valueOf( i ), 
+			return new Move ( Helpers.convertColunmIntToLetter( currentColunm ) + String.valueOf( 8 - currentRow ), 
+					Helpers.convertColunmIntToLetter( j ) + String.valueOf( 8 - i ), 
 					distance, weight );
 		}
 		else if ( ( i > LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE || i < LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE - 1 ) ||
@@ -160,7 +161,7 @@ public class MoveGenerator implements IMoveGenerator {
 
 		//Get the position of the current piece
 		int currentColunm = colunm;
-		int currentRow = row;
+		int currentRow = row ;
 		
 		//Variable for the diagonal
 		int startX = 0, startY = 0;
@@ -171,7 +172,7 @@ public class MoveGenerator implements IMoveGenerator {
 
 			case LOAConstants.RIGHT: // means that we decrease the colunm and check if there any piece
 			case LOAConstants.LEFT: // means that we increase the colunm and check if there is any piece
-				while (startY < LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE ){
+				while (startY < LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE - 1 ){
 					if( board[currentRow][startY++].getType() != LOAConstants.PIECE_TYPE_NULL )
 						counter++;				
 				}			
@@ -179,7 +180,7 @@ public class MoveGenerator implements IMoveGenerator {
 
 			case LOAConstants.DOWN:// means that we decrease the row and check if there is any piece
 			case LOAConstants.UP:// means that we increase the row and check if there is any piece
-				while (startX <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE - 1 ){
+				while (startX <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE - 1){
 					if( board[startX++][currentColunm].getType() != LOAConstants.PIECE_TYPE_NULL ) 
 						counter++;
 				}
@@ -190,16 +191,13 @@ public class MoveGenerator implements IMoveGenerator {
 				startY = currentColunm - (Math.min(currentColunm, currentRow));
 				startX = currentRow - (Math.min(currentColunm, currentRow));
 				
-				while( startY <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE - 1 && 
+				while( startY < LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE   &&
+						startX < LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE   &&
+						startY >= LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE &&
 					   startX >= LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE){
-					startY++;
-					startX--;
-				}
-					
-				while(startX >= LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE &&					
-					  startY <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE ){
-					if(board[startX--][startY++].getType() != LOAConstants.PIECE_TYPE_NULL )
+					if(board[startX++][startY++].getType() != LOAConstants.PIECE_TYPE_NULL )
 						counter++;
+				
 				}
 				break;
 
@@ -210,7 +208,7 @@ public class MoveGenerator implements IMoveGenerator {
 				
 				while( startY <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE - 1 && 
 					   startX <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE - 1){
-									
+
 					if(board[startX++][startY++].getType() != LOAConstants.PIECE_TYPE_NULL )							
 						counter++;
 				 }				

@@ -13,7 +13,7 @@ public class LineOfActionBoard {
 	}
 	public Piece getPiece(String location) {
 	
-		return loaBoard[(int)location.charAt(1)-48 ][(int)location.charAt(0)-65];
+		return loaBoard[((int)location.charAt(1)-48) ][(int)location.charAt(0)-65];
 	}
 	
 	private void initiateBoard(){
@@ -22,7 +22,7 @@ public class LineOfActionBoard {
 			
 			for(int j=0; j<LOAConstants.BOARD_SIZE_WIDTH ; j++){	
 				char columnLetter = (char)(65 + j);// Start by 'A'				
-				String location = String.valueOf(columnLetter) + (7 - i);				
+				String location = String.valueOf(columnLetter) + (8 - i);				
 				//First and last row
 				if ((i == 0 || i == 7) && (j != 0 && j !=7)){					
 					loaBoard[i][j] = new Piece(location,LOAConstants.PIECE_TYPE_BLACK, LOAConstants.WEIGHT_ROW0_AND_7_COLUMNA_AND_H);
