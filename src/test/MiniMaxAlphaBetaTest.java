@@ -21,7 +21,7 @@ public class MiniMaxAlphaBetaTest {
 		MoveGenerator m = new MoveGenerator();
 		MiniMaxAlphaBeta ab = new MiniMaxAlphaBeta();
 		
-		Move move = ab.calculateBestMove(b.getBoard(), LOAConstants.PIECE_TYPE_BLACK, 3);
+		Move move = ab.calculateBestMove(b.getBoard(), LOAConstants.PIECE_TYPE_BLACK, 8);
 		System.out.println("-- Best move --");
 		System.out.println("Weight: "+move.getWeight());
 		System.out.println("Origin: "+move.getOrigin());

@@ -3,6 +3,8 @@ package utils;
 import java.io.*;
 import java.net.*;
 
+import constants.LOAConstants;
+
 import model.LineOfActionBoard;
 
 
@@ -24,7 +26,7 @@ class ServerConnection {
 			char cmd = 0;
 		   	
             cmd = (char)input.read();
-            		
+            System.out.println("Ligne de commande:" + cmd);
             // Début de la partie en joueur blanc
             if(cmd == '1'){
                 byte[] aBuffer = new byte[1024];
@@ -33,6 +35,7 @@ class ServerConnection {
 				//System.out.println("size " + size);
 				input.read(aBuffer,0,size);
                 String s = new String(aBuffer).trim();
+                /*System.out.println("String:" + s);
                 String[] boardValues;
                 boardValues = s.split(" ");
                 int x=0,y=0;
@@ -43,12 +46,19 @@ class ServerConnection {
                         x = 0;
                         y++;
                     }
-                }
+                }*/
 
-                System.out.println("Nouvelle partie! Vous jouer blanc, entrez votre premier coup : ");
+                //System.out.println("Nouvelle partie! Vous jouer blanc, entrez votre premier coup : ");
                 String move = null;
-                move = console.readLine();
-				output.write(move.getBytes(),0,move.length());
+                
+                LOA_Board.initiateWithCommandLine(s);
+                LOA_Board.printBoard();
+                
+                MoveGenerator mg = new MoveGenerator();
+                mg.generatePossibleMoves(LOA_Board.getBoard(), LOAConstants.PIECE_TYPE_WHITE);
+                
+                /*move = console.readLine();
+				output.write(move.getBytes(),0,move.length());*/
 				output.flush();
             }
             // Début de la partie en joueur Noir
