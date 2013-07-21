@@ -89,6 +89,10 @@ public class LineOfActionBoard {
 	public Piece[][] getBoard(){
 		return loaBoard;
 	}
+	
+	public void setBoard(Piece[][] board){
+		this.loaBoard = board;
+	}
 	public void printBoard(){
 		for(int i=0; i< LOAConstants.BOARD_SIZE_HEIGHT; i++){
 			for(int j=0; j<LOAConstants.BOARD_SIZE_WIDTH; j++){		

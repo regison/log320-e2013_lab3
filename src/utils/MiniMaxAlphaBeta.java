@@ -1,5 +1,7 @@
 package utils;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import constants.LOAConstants;
 import model.Move;
@@ -11,7 +13,13 @@ public class MiniMaxAlphaBeta {
 	private int playerColor;
 	private int oppositePlayerColor;
 	private int profondeurMax;
+	private boolean timerDone;
 	MoveGenerator m = new MoveGenerator();
+	
+	// objects for the timer
+	private int interval;
+	private Timer timer;
+
 	
 	public MiniMaxAlphaBeta(){
 		// create the item
@@ -30,19 +38,49 @@ public class MiniMaxAlphaBeta {
 		else
 			this.oppositePlayerColor = LOAConstants.PIECE_TYPE_BLACK;
 		
-		double alpha = alphaValue(currentBoard, null, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 0);
+		//double alpha = alphaValue(currentBoard, null, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 0);
 		
-		System.out.println("alpha: "+alpha);
-		ArrayList<Move> moves = m.generatePossibleMoves(currentBoard, playerColor);
+		
+		
+		// timer
+		this.timerDone = false;
+		int delay = 1000;
+	    int period = 1000;
+	    timer = new Timer();
+	    this.interval = 45;
+	    timer.scheduleAtFixedRate(new TimerTask() {
+	        public void run() {
+	        	System.out.println(interval);
+	            setInterval();
+	        }
+	    }, delay, period);
+	    
+	    // start search
+	    int bestMoveWeight = 0;
+	    Move bestMove = null;
+	    ArrayList<Move> moves = m.generatePossibleMoves(currentBoard, playerColor);
 		for(int i = 0; i < moves.size(); i++)
 		{
-			if(moves.get(i).getWeight() == (int)alpha)
-			{
-				return moves.get(i);
-			}
+			//if(!timerDone)
+			//{
+				System.out.println("move: " + moves.get(i).getOrigin() + moves.get(i).getDestination());
+				/*if(moves.get(i).getWeight() == (int)alpha)
+				{
+					return moves.get(i);
+				}*/
+				Piece[][] modifiedBoard = m.makeMove(currentBoard, moves.get(i), playerColor);
+				double modifiedAlpha = alphaValue(modifiedBoard, null, 
+						Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 0);
+				//System.out.println("alpha: " + modifiedAlpha + " - move: " + moves.get(i).getOrigin() + moves.get(i).getDestination());
+				if(modifiedAlpha > bestMoveWeight)
+				{
+					bestMove = moves.get(i);
+					bestMoveWeight = (int)modifiedAlpha;
+				}
+			//}
 		}
 		
-		return null;
+		return bestMove;
 	}
 	
 	public Piece[][] getNewBoard()
@@ -50,12 +88,21 @@ public class MiniMaxAlphaBeta {
 		return this.returnedValue;
 	}
 	
+	private int setInterval() {
+	    if (interval == 1)
+	    {
+	        timer.cancel();
+	        this.timerDone = true;
+	    }
+	    return --interval;
+	}
+	
 	private double alphaValue(Piece[][] board, Move currentMove, double alpha, double beta, int profondeur)
 	{
 		ArrayList<Move> moves = m.generatePossibleMoves(board, playerColor);
 		
 		// if game state is a leaf node
-		if((moves.size() == 0 && moves != null) || profondeur == profondeurMax)
+		if((moves.size() == 0 && moves != null) || profondeur == profondeurMax/* || timerDone*/)
 			return currentMove.getWeight();
 			//return m.generatePossibleMoves(board, playerColor).get(0).getWeight();
 		////
@@ -95,7 +142,7 @@ public class MiniMaxAlphaBeta {
 			/*System.out.println("destination:"+moves.get(i).getDestination());
 			System.out.println("distance:"+moves.get(i).getDistance());
 			System.out.println("origin:"+moves.get(i).getOrigin());*/
-			System.out.println("weight:"+moves.get(i).getWeight() + " " + (profondeur+1));
+			System.out.println("alpha weight:"+moves.get(i).getWeight() + " " + (profondeur+1) + " " + moves.get(i).getOrigin() + moves.get(i).getDestination());
 			Piece[][] childBoard = m.makeMove(board, moves.get(i), playerColor);
 			v = Math.max(v, betaValue(childBoard, moves.get(i), alpha, beta, (profondeur+1)));
 			if(v >= beta)
@@ -111,7 +158,7 @@ public class MiniMaxAlphaBeta {
 		ArrayList<Move> moves = m.generatePossibleMoves(board, oppositePlayerColor);
 		
 		// if game state is a leaf node
-		if((moves.size() == 0 && moves != null) || profondeur == profondeurMax)
+		if((moves.size() == 0 && moves != null) || profondeur == profondeurMax/* || timerDone*/)
 			return currentMove.getWeight();
 		////
 		
@@ -147,7 +194,7 @@ public class MiniMaxAlphaBeta {
 		double v = Double.POSITIVE_INFINITY;
 		for(int i = 0; i < moves.size(); i++)
 		{
-			System.out.println("weight:"+moves.get(i).getWeight() + " " + (profondeur+1));
+			System.out.println("beta weight:"+moves.get(i).getWeight() + " " + (profondeur+1) + " " + moves.get(i).getOrigin() + moves.get(i).getDestination());
 			Piece[][] childBoard = m.makeMove(board, moves.get(i), oppositePlayerColor);
 			v = Math.min(v, alphaValue(childBoard, moves.get(i), alpha, beta, (profondeur+1)));
 			if(alpha >= v)
