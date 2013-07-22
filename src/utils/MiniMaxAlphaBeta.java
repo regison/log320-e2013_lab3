@@ -50,7 +50,7 @@ public class MiniMaxAlphaBeta {
 	    this.interval = 45;
 	    timer.scheduleAtFixedRate(new TimerTask() {
 	        public void run() {
-	        	System.out.println(interval);
+	        	//System.out.println(interval);
 	            setInterval();
 	        }
 	    }, delay, period);
@@ -63,20 +63,21 @@ public class MiniMaxAlphaBeta {
 		{
 			//if(!timerDone)
 			//{
-				System.out.println("move: " + moves.get(i).getOrigin() + moves.get(i).getDestination());
+				//System.out.println("move: " + moves.get(i).getOrigin() + moves.get(i).getDestination());
 				/*if(moves.get(i).getWeight() == (int)alpha)
 				{
 					return moves.get(i);
 				}*/
-				Piece[][] modifiedBoard = m.makeMove(currentBoard, moves.get(i), playerColor);
+			
+			
+				/*Piece[][] modifiedBoard = m.makeMove(currentBoard, moves.get(i), playerColor);
 				double modifiedAlpha = alphaValue(modifiedBoard, null, 
 						Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 0);
-				//System.out.println("alpha: " + modifiedAlpha + " - move: " + moves.get(i).getOrigin() + moves.get(i).getDestination());
 				if(modifiedAlpha > bestMoveWeight)
 				{
 					bestMove = moves.get(i);
 					bestMoveWeight = (int)modifiedAlpha;
-				}
+				}*/
 			//}
 		}
 		

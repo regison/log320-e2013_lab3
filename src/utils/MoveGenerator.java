@@ -72,11 +72,13 @@ public class MoveGenerator implements IMoveGenerator {
 		// TODO Auto-generated method stub
 		ArrayList<Move> moves = new ArrayList<Move>();
 
-		for (int i = 0; i<= board.length -1 ; i++)
-			for(int j=0; j<= board.length -1 ; j++){	
+		for (int i = 0; i <= board.length - 1; i++)
+			for(int j = 0; j <= board.length - 1; j++){	
 				if(board[i][j].getType() == type){
 					for( int direction : possibleDirections ){
 						Move move = createMoveByDirection( board, i, j, direction, getNumberOfPieceByActionLine( i, j, direction, board ), type );
+						if(move != null)
+							System.out.println("Move " + move.getOrigin() + move.getDestination() + " is " + isMoveValid( move, type, board ));
 						if ( isMoveValid( move, type, board ) )
 							moves.add( move );
 					}
@@ -94,7 +96,7 @@ public class MoveGenerator implements IMoveGenerator {
 	public Move createMoveByDirection( Piece [][] board, int i, int j, int direction, int distance, int playerColor ){
 
 		int currentColunm = j;
-		int currentRow =  i ;
+		int currentRow = i;
 		switch(direction){
 
 		case LOAConstants.RIGHT: // means that we decrease the colunm and check if there any piece		
@@ -110,8 +112,9 @@ public class MoveGenerator implements IMoveGenerator {
 			break;
 
 		case LOAConstants.UP:// means that we increase the row and check if there is any piece			
-			i += distance;						
+			i += distance;
 			break;
+			
 		case LOAConstants.UPPER_RIGHT:
 			j += distance;
 			i += distance;
@@ -172,7 +175,7 @@ public class MoveGenerator implements IMoveGenerator {
 
 			case LOAConstants.RIGHT: // means that we decrease the colunm and check if there any piece
 			case LOAConstants.LEFT: // means that we increase the colunm and check if there is any piece
-				while (startY < LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE - 1 ){
+				while (startY <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE - 1 ){
 					if( board[currentRow][startY++].getType() != LOAConstants.PIECE_TYPE_NULL )
 						counter++;				
 				}			
