@@ -54,15 +54,16 @@ public class MoveGenerator implements IMoveGenerator {
 	 */
 	public Piece[][] makeMove(Piece board[][], Move move, int type) {
 
+		System.out.println(move.getOrigin().charAt(1) + move.getOrigin().charAt(0));
 		int rowStart = Helpers.convertRowChartoInt(move.getOrigin().charAt(1));
 		int colunmStart = Helpers.convertColunmCharToInt(move.getOrigin().charAt(0));
 
 		int rowEnd = Helpers.convertRowChartoInt(move.getDestination().charAt(1));
 		int colunmEnd = Helpers.convertColunmCharToInt(move.getDestination().charAt(0));
 
-		board[8 - rowEnd][colunmEnd].setType( type );
+		board[8-rowEnd][colunmEnd].setType( type );
 
-		board[8 - rowStart][colunmStart].setType(  LOAConstants.PIECE_TYPE_NULL );
+		board[8-rowStart][colunmStart].setType( LOAConstants.PIECE_TYPE_NULL );
 
 		return board;
 	}
@@ -77,8 +78,8 @@ public class MoveGenerator implements IMoveGenerator {
 				if(board[i][j].getType() == type){
 					for( int direction : possibleDirections ){
 						Move move = createMoveByDirection( board, i, j, direction, getNumberOfPieceByActionLine( i, j, direction, board ), type );
-						if(move != null)
-							System.out.println("Move " + move.getOrigin() + move.getDestination() + " is " + isMoveValid( move, type, board ));
+						//if(move != null)
+							//System.out.println("Move " + move.getOrigin() + move.getDestination() + " is " + isMoveValid( move, type, board ));
 						if ( isMoveValid( move, type, board ) )
 							moves.add( move );
 					}

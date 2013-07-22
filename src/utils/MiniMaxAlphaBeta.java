@@ -1,5 +1,6 @@
 package utils;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -9,17 +10,15 @@ import model.Piece;
 
 public class MiniMaxAlphaBeta {
 
-	private Piece[][] returnedValue;
 	private int playerColor;
 	private int oppositePlayerColor;
 	private int profondeurMax;
-	private boolean timerDone;
 	MoveGenerator m = new MoveGenerator();
 	
 	// objects for the timer
 	private int interval;
 	private Timer timer;
-
+	private boolean timerDone;
 	
 	public MiniMaxAlphaBeta(){
 		// create the item
@@ -29,6 +28,8 @@ public class MiniMaxAlphaBeta {
 	public Move calculateBestMove(Piece[][] originalBoard, int playerColor, int profondeurMax)
 	{
 		Piece[][] currentBoard = originalBoard;
+		//Piece[][] currentBoard = new Piece[LOAConstants.BOARD_SIZE_WIDTH][LOAConstants.BOARD_SIZE_HEIGHT];
+		
 		this.playerColor = playerColor;
 		this.profondeurMax = profondeurMax;
 		
@@ -40,14 +41,12 @@ public class MiniMaxAlphaBeta {
 		
 		//double alpha = alphaValue(currentBoard, null, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 0);
 		
-		
-		
 		// timer
 		this.timerDone = false;
 		int delay = 1000;
 	    int period = 1000;
 	    timer = new Timer();
-	    this.interval = 45;
+	    this.interval = 5;
 	    timer.scheduleAtFixedRate(new TimerTask() {
 	        public void run() {
 	        	//System.out.println(interval);
@@ -59,34 +58,51 @@ public class MiniMaxAlphaBeta {
 	    int bestMoveWeight = 0;
 	    Move bestMove = null;
 	    ArrayList<Move> moves = m.generatePossibleMoves(currentBoard, playerColor);
+	    Piece[][] modifiedBoard;
+	    Piece[][] newCurrentBoard;
+	    double modifiedAlpha;
 		for(int i = 0; i < moves.size(); i++)
 		{
-			//if(!timerDone)
-			//{
-				//System.out.println("move: " + moves.get(i).getOrigin() + moves.get(i).getDestination());
+			if(!timerDone)
+			{
+				System.out.println("************* move: " + moves.get(i).getOrigin() + moves.get(i).getDestination());
 				/*if(moves.get(i).getWeight() == (int)alpha)
 				{
 					return moves.get(i);
 				}*/
 			
+				newCurrentBoard = new Piece[LOAConstants.BOARD_SIZE_HEIGHT][LOAConstants.BOARD_SIZE_WIDTH];
+				for(int k = 0; k < currentBoard.length; k++) {
+					  for(int j = 0; j < currentBoard[k].length; j++) {
+						  newCurrentBoard[k][j] = currentBoard[k][j].clone();
+					  }
+				}
 			
-				/*Piece[][] modifiedBoard = m.makeMove(currentBoard, moves.get(i), playerColor);
-				double modifiedAlpha = alphaValue(modifiedBoard, null, 
+				modifiedBoard = new Piece[LOAConstants.BOARD_SIZE_HEIGHT][LOAConstants.BOARD_SIZE_WIDTH];
+				modifiedBoard = m.makeMove(newCurrentBoard, moves.get(i), playerColor);
+				
+				for(int j = 0; j < LOAConstants.BOARD_SIZE_HEIGHT; j++)
+				{
+					for(int k = 0; k < LOAConstants.BOARD_SIZE_WIDTH; k++)
+					{
+						System.out.print(newCurrentBoard[j][k].getType());
+					}
+					System.out.println("");
+				}
+				System.out.println("******");
+				
+				modifiedAlpha = alphaValue(modifiedBoard, null, 
 						Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 0);
+				
 				if(modifiedAlpha > bestMoveWeight)
 				{
 					bestMove = moves.get(i);
 					bestMoveWeight = (int)modifiedAlpha;
-				}*/
-			//}
+				}
+			}
 		}
 		
 		return bestMove;
-	}
-	
-	public Piece[][] getNewBoard()
-	{
-		return this.returnedValue;
 	}
 	
 	private int setInterval() {
@@ -138,13 +154,16 @@ public class MiniMaxAlphaBeta {
 		}*/
 		
 		double v = Double.NEGATIVE_INFINITY;
+		Piece[][] childBoard;
 		for(int i = 0; i < moves.size(); i++)
 		{
 			/*System.out.println("destination:"+moves.get(i).getDestination());
 			System.out.println("distance:"+moves.get(i).getDistance());
 			System.out.println("origin:"+moves.get(i).getOrigin());*/
-			System.out.println("alpha weight:"+moves.get(i).getWeight() + " " + (profondeur+1) + " " + moves.get(i).getOrigin() + moves.get(i).getDestination());
-			Piece[][] childBoard = m.makeMove(board, moves.get(i), playerColor);
+			//System.out.println("alpha weight:"+moves.get(i).getWeight() + " " + (profondeur+1) + " " + moves.get(i).getOrigin() + moves.get(i).getDestination());
+			childBoard = new Piece[LOAConstants.BOARD_SIZE_HEIGHT][LOAConstants.BOARD_SIZE_WIDTH];
+			childBoard = m.makeMove(board, moves.get(i), playerColor);
+			
 			v = Math.max(v, betaValue(childBoard, moves.get(i), alpha, beta, (profondeur+1)));
 			if(v >= beta)
 				return v;
@@ -193,10 +212,13 @@ public class MiniMaxAlphaBeta {
 		}*/
 		
 		double v = Double.POSITIVE_INFINITY;
+		Piece[][] childBoard;
 		for(int i = 0; i < moves.size(); i++)
 		{
-			System.out.println("beta weight:"+moves.get(i).getWeight() + " " + (profondeur+1) + " " + moves.get(i).getOrigin() + moves.get(i).getDestination());
-			Piece[][] childBoard = m.makeMove(board, moves.get(i), oppositePlayerColor);
+			//System.out.println("beta weight:"+moves.get(i).getWeight() + " " + (profondeur+1) + " " + moves.get(i).getOrigin() + moves.get(i).getDestination());
+			childBoard = new Piece[LOAConstants.BOARD_SIZE_HEIGHT][LOAConstants.BOARD_SIZE_WIDTH];
+			childBoard = m.makeMove(board, moves.get(i), oppositePlayerColor);
+			
 			v = Math.min(v, alphaValue(childBoard, moves.get(i), alpha, beta, (profondeur+1)));
 			if(alpha >= v)
 				return v;

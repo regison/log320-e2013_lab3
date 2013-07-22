@@ -8,6 +8,7 @@ import constants.LOAConstants;
 
 import model.LineOfActionBoard;
 import model.Move;
+import model.Piece;
 
 
 class ServerConnection {
@@ -28,8 +29,8 @@ class ServerConnection {
 		while(1 == 1)
 		{	
 			char cmd = 0;
-		   	int profondeur = 20;
-			int color = 0;
+		   	int profondeur = 4;
+			int color = 0; int oppositeColor = 0;
             cmd = (char)input.read();
             System.out.println("Ligne de commande:" + cmd);
             
@@ -44,25 +45,35 @@ class ServerConnection {
                 String moveStr = null;
                 
                 color = LOAConstants.PIECE_TYPE_WHITE;
+                oppositeColor = LOAConstants.PIECE_TYPE_BLACK;
                 
                 LOA_Board.initiateWithCommandLine(s);
+                /*System.out.println("-- Current Board --");
                 LOA_Board.printBoard();
-                
+                System.out.println("-------------------");*/
                 MoveGenerator mg = new MoveGenerator();
                 ArrayList<Move> moves = mg.generatePossibleMoves(LOA_Board.getBoard(), LOAConstants.PIECE_TYPE_WHITE);
                 
-                for(int i = 0; i < moves.size(); i++)
+               
+                /*for(int i = 0; i < moves.size(); i++)
                 {
                 	System.out.println("Moves: "+moves.get(i).getOrigin() + moves.get(i).getDestination());
                 }
+                */
+                MiniMaxAlphaBeta mmab = new MiniMaxAlphaBeta();
+                Piece[][] currentBoard = LOA_Board.getBoard();
+                Move newMove = mmab.calculateBestMove(currentBoard, color, profondeur);
+                //LOA_Board.printBoard();
                 
-                /*MiniMaxAlphaBeta mmab = new MiniMaxAlphaBeta();
-                Move newMove = mmab.calculateBestMove(LOA_Board.getBoard(), color, profondeur);
                 moveStr = newMove.getOrigin() + newMove.getDestination();
+                
+                Piece[][] newBoard = mg.makeMove(LOA_Board.getBoard(), newMove, color);
+                LOA_Board.setBoard(newBoard);
+                //LOA_Board.printBoard();
                 System.out.println("New move: " + moveStr);
                 
 				output.write(moveStr.getBytes(),0,moveStr.length());
-				output.flush();*/
+				output.flush();
             }
             
             // Début de la partie en joueur Noir
@@ -75,6 +86,7 @@ class ServerConnection {
                 String s = new String(aBuffer).trim();
                 
                 color = LOAConstants.PIECE_TYPE_BLACK;
+                oppositeColor = LOAConstants.PIECE_TYPE_WHITE;
                 
                 LOA_Board.initiateWithCommandLine(s);
                 LOA_Board.printBoard();  
@@ -93,8 +105,11 @@ class ServerConnection {
 				System.out.println("Dernier coup : "+ s);
 				
 				MoveGenerator mg = new MoveGenerator();
-                Move lastMove = new Move(moveTab[0], moveTab[1], 0, 0);
-                LOA_Board.setBoard(mg.makeMove(LOA_Board.getBoard(), lastMove, color));
+				//System.out.println(moveTab[0] + moveTab[1]);
+                Move lastMove = new Move(moveTab[0].trim(), moveTab[1].trim(), 0, 0);
+                LOA_Board.printBoard();
+                Piece[][] newBoard = mg.makeMove(LOA_Board.getBoard(), lastMove, oppositeColor);
+                LOA_Board.setBoard(newBoard);
                 
                 String moveStr = null;
                 MiniMaxAlphaBeta mmab = new MiniMaxAlphaBeta();

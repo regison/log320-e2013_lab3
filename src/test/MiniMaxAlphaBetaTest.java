@@ -20,8 +20,9 @@ public class MiniMaxAlphaBetaTest {
 		LineOfActionBoard b = new LineOfActionBoard();
 		MoveGenerator m = new MoveGenerator();
 		MiniMaxAlphaBeta ab = new MiniMaxAlphaBeta();
-		
-		Move move = ab.calculateBestMove(b.getBoard(), LOAConstants.PIECE_TYPE_WHITE, 1);
+		//b.printBoard();
+		Move move = ab.calculateBestMove(b.getBoard(), LOAConstants.PIECE_TYPE_WHITE, 6);
+		//b.printBoard();
 		System.out.println("-- Best move --");
 		System.out.println("Weight: "+move.getWeight());
 		System.out.println("Origin: "+move.getOrigin());

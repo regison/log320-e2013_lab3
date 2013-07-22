@@ -3,7 +3,7 @@ package model;
 import constants.LOAConstants;
 
 /**
- * Classe qui représentera une pièce sur le jeu.
+ * Classe qui reprï¿½sentera une piï¿½ce sur le jeu.
  * Trois types coexistent = BLACK, WHITE, NULL
  * @author Regison
  * @Start Date : 22 juin 2012
@@ -30,6 +30,11 @@ public class Piece {
 		this.type = type;
 		this.location = location;
 		this.weight = weight;
+	}
+	
+	public Piece clone() {
+		Piece o = new Piece(this.location, this.type, this.weight);
+		return o;
 	}
 
 	public String getLocation() {

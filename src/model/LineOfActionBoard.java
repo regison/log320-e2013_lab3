@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Arrays;
+
 import constants.LOAConstants;
 
 public class LineOfActionBoard {
@@ -87,12 +89,23 @@ public class LineOfActionBoard {
 	}
 	
 	public Piece[][] getBoard(){
-		return loaBoard;
+		Piece[][] returnedBoard = new Piece[LOAConstants.BOARD_SIZE_HEIGHT][LOAConstants.BOARD_SIZE_WIDTH];
+		for(int i = 0; i < loaBoard.length; i++) {
+			  for(int j = 0; j < loaBoard[i].length; j++) {
+				  returnedBoard[i][j] = loaBoard[i][j].clone();
+			  }
+		}
+		return returnedBoard;
 	}
 	
 	public void setBoard(Piece[][] board){
-		this.loaBoard = board;
+		for(int i = 0; i < loaBoard.length; i++) {
+			  for(int j = 0; j < loaBoard[i].length; j++) {
+				  loaBoard[i][j] = board[i][j].clone();
+			  }
+		}
 	}
+	
 	public void printBoard(){
 		for(int i=0; i< LOAConstants.BOARD_SIZE_HEIGHT; i++){
 			for(int j=0; j<LOAConstants.BOARD_SIZE_WIDTH; j++){		
