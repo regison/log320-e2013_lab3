@@ -36,14 +36,143 @@ public class MoveGenerator implements IMoveGenerator {
 	public boolean isMoveValid(Move m, int color, Piece[][] board) {		
 		if (m != null){
 			
-			int i = Helpers.convertRowChartoInt(m.getDestination().charAt(1));
-			int j = Helpers.convertColunmCharToInt(m.getDestination().charAt(0));
+			int oppositeColor = 0;
+			if(color == LOAConstants.PIECE_TYPE_BLACK)
+				oppositeColor = LOAConstants.PIECE_TYPE_WHITE;
+			else
+				oppositeColor = LOAConstants.PIECE_TYPE_BLACK;
 			
-			if (( i > LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE || i <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE) || 
+			int originRow = Helpers.convertRowChartoInt(m.getOrigin().charAt(1));
+			int originColumn = Helpers.convertColunmCharToInt(m.getOrigin().charAt(0));
+			
+			int destinationRow = Helpers.convertRowChartoInt(m.getDestination().charAt(1));
+			int destinationColumn = Helpers.convertColunmCharToInt(m.getDestination().charAt(0));
+			
+			boolean isValid = true;
+			
+			// verifies if row doesn't exceed the board
+			if( destinationRow <= LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE || destinationRow > LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE)
+				isValid = false;
+			
+			// verifies column doesn't exceed the board
+			if( destinationColumn < LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE || destinationColumn >= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE  )
+				isValid = false;
+			
+			// verifies if destination doesn't contain a piece of the same color
+			if(board[8-destinationRow][destinationColumn].getType() == color)
+				isValid = false;
+			
+			//verifies if destination isn't the origin point
+			 if(m.getOrigin() == m.getDestination())
+				isValid = false;
+			 
+			// START VERIFY //
+			// that there isn't any opposite color pieces in between the origin and the destination 
+			if(isValid)
+			{
+				if(originRow != destinationRow && originColumn != destinationColumn) // move diagonale
+				{
+					int columnStart = 0;
+					int columnEnd = 0;
+					int rowStart = 0;
+					int rowEnd = 0;
+					if(originRow < destinationRow && originColumn > destinationColumn) // top left
+					{
+						columnStart = destinationColumn;
+						columnEnd = originColumn;
+						rowStart = 8 - destinationRow;
+						rowEnd = 8 - originRow;
+					}
+					else
+					if(originRow < destinationRow && originColumn < destinationColumn) // top right
+					{
+						columnStart = originColumn;
+						columnEnd = destinationColumn;
+						rowStart = 8 - destinationRow;
+						rowEnd = 8 - originRow;
+					}
+					else
+					if(originRow > destinationRow && originColumn > destinationColumn) // bottom left
+					{
+						columnStart = destinationColumn;
+						columnEnd = originColumn;
+						rowStart = 8 - originRow;
+						rowEnd = 8 - destinationRow;
+					}
+					else
+					if(originRow > destinationRow && originColumn < destinationColumn) // bottom right
+					{
+						columnStart = originColumn;
+						columnEnd = destinationColumn;
+						rowStart = 8 - originRow;
+						rowEnd = 8 - destinationRow;
+					}
+					
+					int j = columnStart + 1;
+					for(int i = rowStart + 1; i < rowEnd; i++)
+					{
+						if(board[i][j].getType() == oppositeColor)
+							isValid = false;
+						j++;
+					}
+				}
+				else
+				if(originRow == destinationRow && originColumn != destinationColumn) // move horizontale
+				{		
+					int start = 0;
+					int end = 0;
+					if(destinationColumn > originColumn) // move vers la droite
+					{
+						start = originColumn;
+						end = destinationColumn;
+					}
+					else 
+					if(originColumn > destinationColumn) // move vers la gauche
+					{
+						start = destinationColumn;
+						end = originColumn;
+					}
+					
+					for(int i = start + 1; i < end; i++)
+					{
+						if(board[8-destinationRow][i].getType() == oppositeColor)
+							isValid = false;
+					}
+				}
+				else
+				if(originRow != destinationRow && originColumn == destinationColumn) // move verticale
+				{
+					int start = 0;
+					int end = 0;
+					if(destinationRow > originRow) // move vers le haut
+					{
+						start = 8 - destinationRow;
+						end = 8 - originRow;
+					}
+					else 
+					if(originRow > destinationRow) // move vers le bas
+					{
+						start = 8 - originRow;
+						end = 8 - destinationRow;
+					}
+					
+					for(int i = start + 1; i < end; i++)
+					{
+						if(board[i][destinationColumn].getType() == oppositeColor)
+							isValid = false;
+					}
+				}
+			}
+			// END VERIFY
+			
+			/*if (( i > LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE || i <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE) || 
 					( j > LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE || j <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE  ) &&
 					board[i][j].getType() != color && m.getOrigin() != (m.getDestination())){
 				return true;
-			}
+			}*/
+			//if(isValid)
+				//System.out.println("Move" + m.getOrigin() + m.getDestination() + " is " + isValid);
+			return isValid;
 		}
 		return false;
 	}
@@ -54,7 +183,7 @@ public class MoveGenerator implements IMoveGenerator {
 	 */
 	public Piece[][] makeMove(Piece board[][], Move move, int type) {
 
-		System.out.println(move.getOrigin().charAt(1) + move.getOrigin().charAt(0));
+		//System.out.println(move.getOrigin().charAt(1) + move.getOrigin().charAt(0));
 		int rowStart = Helpers.convertRowChartoInt(move.getOrigin().charAt(1));
 		int colunmStart = Helpers.convertColunmCharToInt(move.getOrigin().charAt(0));
 
@@ -96,8 +225,10 @@ public class MoveGenerator implements IMoveGenerator {
 
 	public Move createMoveByDirection( Piece [][] board, int i, int j, int direction, int distance, int playerColor ){
 
+		
 		int currentColunm = j;
 		int currentRow = i;
+		
 		switch(direction){
 
 		case LOAConstants.RIGHT: // means that we decrease the colunm and check if there any piece		

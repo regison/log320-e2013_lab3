@@ -26,11 +26,12 @@ class ServerConnection {
 		output   = new BufferedOutputStream(MyClient.getOutputStream());
 		BufferedReader console = new BufferedReader(new InputStreamReader(System.in)); 
 	   	
+		int profondeur = 4;
+		int color = 0; int oppositeColor = 0;
+		
 		while(1 == 1)
 		{	
 			char cmd = 0;
-		   	int profondeur = 4;
-			int color = 0; int oppositeColor = 0;
             cmd = (char)input.read();
             System.out.println("Ligne de commande:" + cmd);
             
@@ -107,15 +108,22 @@ class ServerConnection {
 				MoveGenerator mg = new MoveGenerator();
 				//System.out.println(moveTab[0] + moveTab[1]);
                 Move lastMove = new Move(moveTab[0].trim(), moveTab[1].trim(), 0, 0);
+                
+                System.out.println("Last move: " + lastMove.getOrigin() + lastMove.getDestination() );
                 LOA_Board.printBoard();
+                System.out.println("-----------");
                 Piece[][] newBoard = mg.makeMove(LOA_Board.getBoard(), lastMove, oppositeColor);
                 LOA_Board.setBoard(newBoard);
                 
+                LOA_Board.printBoard();
                 String moveStr = null;
                 MiniMaxAlphaBeta mmab = new MiniMaxAlphaBeta();
                 Move newMove = mmab.calculateBestMove(LOA_Board.getBoard(), color, profondeur);
                 moveStr = newMove.getOrigin() + newMove.getDestination();
                 System.out.println("New move: " + moveStr);
+                
+                Piece[][] tempBoard = mg.makeMove(LOA_Board.getBoard(), newMove, color);
+                LOA_Board.setBoard(tempBoard);
                 
 				output.write(moveStr.getBytes(),0,moveStr.length());
 				output.flush();
