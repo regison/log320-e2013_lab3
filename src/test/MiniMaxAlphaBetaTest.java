@@ -17,7 +17,7 @@ public class MiniMaxAlphaBetaTest {
 
 	@Test
 	public void test() {
-		LineOfActionBoard b = new LineOfActionBoard("2222220000004004400000044000000440000004222200044000000422000000");
+		LineOfActionBoard b = new LineOfActionBoard("4022222440000004420000044000000440000004400000040000000002222220");
 		b.printBoard();
 		MoveGenerator m = new MoveGenerator();
 		MiniMaxAlphaBeta ab = new MiniMaxAlphaBeta();

@@ -208,7 +208,7 @@ public class MoveGenerator implements IMoveGenerator {
 					for( int direction : possibleDirections ){
 						Move move = createMoveByDirection( board, i, j, direction, getNumberOfPieceByActionLine( i, j, direction, board ), type );
 						//if(move != null)
-							//System.out.println(" is " + isMoveValid( move, type, board ));
+						//	System.out.println(" is " + isMoveValid( move, type, board ));
 						if ( isMoveValid( move, type, board ) )
 							moves.add( move );
 					}
@@ -269,7 +269,7 @@ public class MoveGenerator implements IMoveGenerator {
 		}
 
 		//System.out.print("New move" + Helpers.convertColunmIntToLetter( currentColunm ) + String.valueOf( 8 - currentRow ) + 
-		//		Helpers.convertColunmIntToLetter( j ) + String.valueOf( 8 - i ));
+			//	Helpers.convertColunmIntToLetter( j ) + String.valueOf( 8 - i ));
 		
 		if (  (i >= LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE && i <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE - 1)  &&
 		   (  j >= LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE && j <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE - 1 )  ){			
@@ -380,6 +380,9 @@ public class MoveGenerator implements IMoveGenerator {
 					startX--;
 				}	
 				
+				startY = currentColunm;
+				startX = currentRow;
+				
 				// go bottom right from start
 				startY++;
 				startX++;
@@ -392,6 +395,7 @@ public class MoveGenerator implements IMoveGenerator {
 					startY++;
 					startX++;
 				}	
+				//System.out.print("Counter is " + counter + " for ");
 				break;
 			}			
 		}
