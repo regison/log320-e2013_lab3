@@ -326,8 +326,8 @@ public class MoveGenerator implements IMoveGenerator {
 				startY = currentColunm - (Math.min(currentColunm, currentRow));
 				startX = currentRow - (Math.min(currentColunm, currentRow));
 				
-				while( startY < LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE   &&
-						startX < LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE   &&
+				while( startY <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE   &&
+						startX <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE   &&
 						startY >= LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE &&
 					   startX >= LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE){
 					if(board[startX++][startY++].getType() != LOAConstants.PIECE_TYPE_NULL )
