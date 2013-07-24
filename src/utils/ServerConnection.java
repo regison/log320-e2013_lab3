@@ -26,7 +26,7 @@ class ServerConnection {
 		output   = new BufferedOutputStream(MyClient.getOutputStream());
 		BufferedReader console = new BufferedReader(new InputStreamReader(System.in)); 
 	   	
-		int profondeur = 8;
+		int profondeur = 4;
 		int color = 0; int oppositeColor = 0;
 		
 		while(1 == 1)

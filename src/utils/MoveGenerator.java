@@ -62,6 +62,7 @@ public class MoveGenerator implements IMoveGenerator {
 			if(board[8-destinationRow][destinationColumn].getType() == color)
 				isValid = false;
 			
+			System.out.println(m.getOrigin() + " " + m.getDestination());
 			//verifies if destination isn't the origin point
 			 if(m.getOrigin() == m.getDestination())
 				isValid = false;
@@ -76,20 +77,24 @@ public class MoveGenerator implements IMoveGenerator {
 					int columnEnd = 0;
 					int rowStart = 0;
 					int rowEnd = 0;
+					boolean isTopLeftOrBottomRight = false;
+					
 					if(originRow < destinationRow && originColumn > destinationColumn) // top left
 					{
 						columnStart = destinationColumn;
 						columnEnd = originColumn;
 						rowStart = 8 - destinationRow;
 						rowEnd = 8 - originRow;
+						isTopLeftOrBottomRight = true;
 					}
 					else
 					if(originRow < destinationRow && originColumn < destinationColumn) // top right
 					{
-						columnStart = originColumn;
-						columnEnd = destinationColumn;
-						rowStart = 8 - destinationRow;
-						rowEnd = 8 - originRow;
+						columnStart = originColumn; // 0
+						columnEnd = destinationColumn; // 2
+						rowStart = 8 - destinationRow; // 5
+						rowEnd = 8 - originRow; // 7
+						isTopLeftOrBottomRight = false;
 					}
 					else
 					if(originRow > destinationRow && originColumn > destinationColumn) // bottom left
@@ -98,6 +103,8 @@ public class MoveGenerator implements IMoveGenerator {
 						columnEnd = originColumn;
 						rowStart = 8 - originRow;
 						rowEnd = 8 - destinationRow;
+						isTopLeftOrBottomRight = false;
+						System.out.println("2");
 					}
 					else
 					if(originRow > destinationRow && originColumn < destinationColumn) // bottom right
@@ -106,14 +113,33 @@ public class MoveGenerator implements IMoveGenerator {
 						columnEnd = destinationColumn;
 						rowStart = 8 - originRow;
 						rowEnd = 8 - destinationRow;
+						isTopLeftOrBottomRight = true;
 					}
 					
-					int j = columnStart + 1;
-					for(int i = rowStart + 1; i < rowEnd; i++)
+					if(isTopLeftOrBottomRight)
 					{
-						if(board[i][j].getType() == oppositeColor)
-							isValid = false;
-						j++;
+						int j = columnStart + 1;
+						int i = rowStart + 1;
+						while(i < rowEnd)
+						{
+							if(board[i][j].getType() == oppositeColor)
+								isValid = false;
+							i++;
+							j++;
+						}
+					}
+					else
+					{
+						int i = rowEnd - 1;
+						int j = columnStart + 1;
+						//System.out.println(columnStart + " " + columnEnd + " " + rowStart + " " + rowEnd);
+						while(j < columnEnd)
+						{
+							if(board[i][j].getType() == oppositeColor)
+								isValid = false;
+							i--;
+							j++;
+						}
 					}
 				}
 				else
