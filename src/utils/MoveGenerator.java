@@ -208,7 +208,7 @@ public class MoveGenerator implements IMoveGenerator {
 					for( int direction : possibleDirections ){
 						Move move = createMoveByDirection( board, i, j, direction, getNumberOfPieceByActionLine( i, j, direction, board ), type );
 						//if(move != null)
-							//System.out.println("Move " + move.getOrigin() + move.getDestination() + " is " + isMoveValid( move, type, board ));
+							//System.out.println(" is " + isMoveValid( move, type, board ));
 						if ( isMoveValid( move, type, board ) )
 							moves.add( move );
 					}
@@ -240,34 +240,37 @@ public class MoveGenerator implements IMoveGenerator {
 			break;						
 
 		case LOAConstants.DOWN:// means that we decrease the row and check if there is any piece			
-			i -= distance;
+			i += distance;
 			break;
 
 		case LOAConstants.UP:// means that we increase the row and check if there is any piece			
-			i += distance;
+			i -= distance;
 			break;
 			
 		case LOAConstants.UPPER_RIGHT:
 			j += distance;
-			i += distance;
+			i -= distance;
 			break;
 
 		case LOAConstants.UPPER_LEFT:
 			j -= distance;
-			i += distance;
+			i -= distance;
 			break;
 
 		case LOAConstants.BOTTOM_LEFT:
 			j -= distance;
-			i -= distance;
+			i += distance;
 			break;
 
 		case LOAConstants.BOTTOM_RIGHT:
 			j += distance;
-			i -= distance;
+			i += distance;
 			break;
 		}
 
+		//System.out.print("New move" + Helpers.convertColunmIntToLetter( currentColunm ) + String.valueOf( 8 - currentRow ) + 
+		//		Helpers.convertColunmIntToLetter( j ) + String.valueOf( 8 - i ));
+		
 		if (  (i >= LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE && i <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE - 1)  &&
 		   (  j >= LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE && j <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE - 1 )  ){			
 			
@@ -323,32 +326,73 @@ public class MoveGenerator implements IMoveGenerator {
 
 			case LOAConstants.UPPER_RIGHT:
 			case LOAConstants.BOTTOM_LEFT:
-				startY = currentColunm - (Math.min(currentColunm, currentRow));
-				startX = currentRow - (Math.min(currentColunm, currentRow));
+				startY = currentColunm;
+				startX = currentRow;
+				counter++; // lui-meme
 				
-				while( startY <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE   &&
-						startX <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE   &&
-						startY >= LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE &&
-					   startX >= LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE){
-					if(board[startX++][startY++].getType() != LOAConstants.PIECE_TYPE_NULL )
+				// go bottom left from start
+				startX++;
+				startY--;
+				while( startY >= LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE &&
+						startX < LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE) {
+					
+					if(board[startX][startY].getType() != LOAConstants.PIECE_TYPE_NULL )
 						counter++;
-				
+					
+					startX++;
+					startY--;
 				}
+				
+				startY = currentColunm;
+				startX = currentRow;
+				
+				// go top right from start
+				startX--;
+				startY++;
+				while( startY < LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE &&
+						startX >= LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE) {
+					
+					if(board[startX][startY].getType() != LOAConstants.PIECE_TYPE_NULL )
+						counter++;
+					
+					startX--;
+					startY++;
+				}
+				//System.out.print("Counter is " + counter + " for ");
 				break;
 
 			case LOAConstants.BOTTOM_RIGHT:
 			case LOAConstants.UPPER_LEFT:				
-				startY = currentColunm - (Math.min(currentColunm, currentRow));
-				startX = currentRow - (Math.min(currentColunm, currentRow));				
+				startY = currentColunm;
+				startX = currentRow;		
+				counter++; // lui-meme
 				
-				while( startY <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE - 1 && 
-					   startX <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE - 1){
+				// go upper left from start
+				startY--;
+				startX--;
+				while( startY >= LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE && 
+					   startX >= LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE){
 
-					if(board[startX++][startY++].getType() != LOAConstants.PIECE_TYPE_NULL )							
+					if(board[startX][startY].getType() != LOAConstants.PIECE_TYPE_NULL )							
 						counter++;
-				 }				
-				break;
+					
+					startY--;
+					startX--;
+				}	
 				
+				// go bottom right from start
+				startY++;
+				startX++;
+				while( startY < LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE && 
+					   startX < LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE ){
+
+					if(board[startX][startY].getType() != LOAConstants.PIECE_TYPE_NULL )							
+						counter++;
+					
+					startY++;
+					startX++;
+				}	
+				break;
 			}			
 		}
 		return counter;
