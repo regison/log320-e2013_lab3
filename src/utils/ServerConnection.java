@@ -26,7 +26,7 @@ class ServerConnection {
 		output   = new BufferedOutputStream(MyClient.getOutputStream());
 		BufferedReader console = new BufferedReader(new InputStreamReader(System.in)); 
 	   	
-		int profondeur = 4;
+		int profondeur = 8;
 		int color = 0; int oppositeColor = 0;
 		
 		while(1 == 1)
@@ -127,7 +127,6 @@ class ServerConnection {
                 
 				output.write(moveStr.getBytes(),0,moveStr.length());
 				output.flush();
-				
 			}
 			
 			// Le dernier coup est invalide
@@ -138,7 +137,6 @@ class ServerConnection {
 				move = console.readLine();
 				output.write(move.getBytes(),0,move.length());
 				output.flush();
-				
 			}
         }
 	}

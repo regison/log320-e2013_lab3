@@ -14,6 +14,7 @@ public class MiniMaxAlphaBeta {
 	private int oppositePlayerColor;
 	private int profondeurMax;
 	MoveGenerator m = new MoveGenerator();
+	BoardEvaluator boardEvaluator = new BoardEvaluator();
 	
 	// objects for the timer
 	private int interval;
@@ -120,7 +121,7 @@ public class MiniMaxAlphaBeta {
 		
 		// if game state is a leaf node
 		if((moves.size() == 0 && moves != null) || profondeur == profondeurMax || timerDone)
-			return currentMove.getWeight();
+			return boardEvaluator.evalutate(board, playerColor);
 			//return m.generatePossibleMoves(board, playerColor).get(0).getWeight();
 		////
 		
@@ -179,7 +180,7 @@ public class MiniMaxAlphaBeta {
 		
 		// if game state is a leaf node
 		if((moves.size() == 0 && moves != null) || profondeur == profondeurMax || timerDone)
-			return currentMove.getWeight();
+			return boardEvaluator.evalutate(board, playerColor);
 		////
 		
 		/*double v = Double.POSITIVE_INFINITY;

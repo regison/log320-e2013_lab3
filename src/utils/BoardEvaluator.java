@@ -27,8 +27,6 @@ public class BoardEvaluator{
 		boardValue += ((LOAConstants.MAX_WHITE_PIECES - LOAConstants.MAX_BLACK_PIECES) * 500);
 		boardValue += (amountCurrentPlayerAtWall - amountOtherPlayerAtWall) * 300;
 		
-		
-		
 		if (pieceColor == LOAConstants.PIECE_TYPE_BLACK)
 			boardValue -= (amountCurrentPlayerAtWall * 800);
 		else
