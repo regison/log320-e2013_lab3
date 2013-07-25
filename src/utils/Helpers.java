@@ -3,6 +3,7 @@ package utils;
 import constants.LOAConstants;
 import model.*;
 
+/*This class contains useful methods for the program in general*/
 public class Helpers {
 
 	public static int convertColunmCharToInt(char colunm){

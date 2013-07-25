@@ -1,5 +1,7 @@
 package model;
 
+/*This class define a move. This class contains getters, setters and information relative to a move like
+ * get/set the origin of the move, the destination, the distance and the weight*/
 public class Move {
 	private String destination;
 	private String origin;

@@ -10,7 +10,7 @@ import model.LineOfActionBoard;
 import model.Move;
 import model.Piece;
 
-
+/*This class is allows our program to interact with the server. All the instances are created in this class (main)*/
 class ServerConnection {
 	public static void main(String[] args) {
          
@@ -35,7 +35,7 @@ class ServerConnection {
             cmd = (char)input.read();
             System.out.println("Ligne de commande:" + cmd);
             
-            // Début de la partie en joueur blanc
+            // Start with the white piece
             if(cmd == '1')
             {
                 byte[] aBuffer = new byte[1024];		
@@ -49,35 +49,26 @@ class ServerConnection {
                 oppositeColor = LOAConstants.PIECE_TYPE_BLACK;
                 
                 LOA_Board.initiateWithCommandLine(s);
-                /*System.out.println("-- Current Board --");
-                LOA_Board.printBoard();
-                System.out.println("-------------------");*/
+
                 MoveGenerator mg = new MoveGenerator();
                 ArrayList<Move> moves = mg.generatePossibleMoves(LOA_Board.getBoard(), LOAConstants.PIECE_TYPE_WHITE);
-                
-               
-                /*for(int i = 0; i < moves.size(); i++)
-                {
-                	System.out.println("Moves: "+moves.get(i).getOrigin() + moves.get(i).getDestination());
-                }
-                */
+
                 MiniMaxAlphaBeta mmab = new MiniMaxAlphaBeta();
                 Piece[][] currentBoard = LOA_Board.getBoard();
                 Move newMove = mmab.calculateBestMove(currentBoard, color, profondeur);
-                //LOA_Board.printBoard();
                 
                 moveStr = newMove.getOrigin() + newMove.getDestination();
                 
                 Piece[][] newBoard = mg.makeMove(LOA_Board.getBoard(), newMove, color);
                 LOA_Board.setBoard(newBoard);
-                //LOA_Board.printBoard();
+
                 System.out.println("New move: " + moveStr);
                 
 				output.write(moveStr.getBytes(),0,moveStr.length());
 				output.flush();
             }
             
-            // Début de la partie en joueur Noir
+            // Start with the black piece
             if(cmd == '2')
             {
                 System.out.println("Nouvelle partie! Vous jouer noir, attendez le coup des blancs.");
@@ -93,8 +84,8 @@ class ServerConnection {
                 LOA_Board.printBoard();  
             }
 
-			// Le serveur demande le prochain coup
-			// Le message contient aussi le dernier coup joué.
+			// Server ask for the next move
+			// Server send the last move played
 			if(cmd == '3')
 			{
 				byte[] aBuffer = new byte[16];		
@@ -106,7 +97,6 @@ class ServerConnection {
 				System.out.println("Dernier coup : "+ s);
 				
 				MoveGenerator mg = new MoveGenerator();
-				//System.out.println(moveTab[0] + moveTab[1]);
                 Move lastMove = new Move(moveTab[0].trim(), moveTab[1].trim(), 0, 0);
                 
                 System.out.println("Last move: " + lastMove.getOrigin() + lastMove.getDestination() );
@@ -129,7 +119,7 @@ class ServerConnection {
 				output.flush();
 			}
 			
-			// Le dernier coup est invalide
+			// Last move is invalid
 			if(cmd == '4')
 			{
 				System.out.println("Coup invalide, entrez un nouveau coup : ");

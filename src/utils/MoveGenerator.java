@@ -8,6 +8,8 @@ import model.Move;
 import model.Piece;
 import interfaces.IMoveGenerator;
 
+/* This class is used to generate all the pieces movement and also this class 
+ * verify the validity of each moves*/
 public class MoveGenerator implements IMoveGenerator {
 
 	public ArrayList<Integer> horizontalMoves = new ArrayList<Integer>();
@@ -16,7 +18,6 @@ public class MoveGenerator implements IMoveGenerator {
 	public ArrayList<Integer> diagonal45Moves = new ArrayList<Integer>();
 
 	private ArrayList<Integer> possibleDirections =  new ArrayList<Integer>();
-//	private ArrayList<Move> possibleCaptures = new ArrayList<Move>();
 
 	public MoveGenerator(){
 		possibleDirections.add(LOAConstants.RIGHT);
@@ -71,7 +72,7 @@ public class MoveGenerator implements IMoveGenerator {
 			// that there isn't any opposite color pieces in between the origin and the destination 
 			if(isValid)
 			{
-				if(originRow != destinationRow && originColumn != destinationColumn) // move diagonale
+				if(originRow != destinationRow && originColumn != destinationColumn) // move diagonal
 				{
 					int columnStart = 0;
 					int columnEnd = 0;
@@ -90,10 +91,10 @@ public class MoveGenerator implements IMoveGenerator {
 					else
 					if(originRow < destinationRow && originColumn < destinationColumn) // top right
 					{
-						columnStart = originColumn; // 0
-						columnEnd = destinationColumn; // 2
-						rowStart = 8 - destinationRow; // 5
-						rowEnd = 8 - originRow; // 7
+						columnStart = originColumn;
+						columnEnd = destinationColumn;
+						rowStart = 8 - destinationRow; 
+						rowEnd = 8 - originRow;
 						isTopLeftOrBottomRight = false;
 					}
 					else
@@ -132,7 +133,6 @@ public class MoveGenerator implements IMoveGenerator {
 					{
 						int i = rowEnd - 1;
 						int j = columnStart + 1;
-						//System.out.println(columnStart + " " + columnEnd + " " + rowStart + " " + rowEnd);
 						while(j < columnEnd)
 						{
 							if(board[i][j].getType() == oppositeColor)
@@ -143,17 +143,17 @@ public class MoveGenerator implements IMoveGenerator {
 					}
 				}
 				else
-				if(originRow == destinationRow && originColumn != destinationColumn) // move horizontale
+				if(originRow == destinationRow && originColumn != destinationColumn) // horizontal move
 				{		
 					int start = 0;
 					int end = 0;
-					if(destinationColumn > originColumn) // move vers la droite
+					if(destinationColumn > originColumn) // move to the right
 					{
 						start = originColumn;
 						end = destinationColumn;
 					}
 					else 
-					if(originColumn > destinationColumn) // move vers la gauche
+					if(originColumn > destinationColumn) // move to left
 					{
 						start = destinationColumn;
 						end = originColumn;
@@ -166,17 +166,17 @@ public class MoveGenerator implements IMoveGenerator {
 					}
 				}
 				else
-				if(originRow != destinationRow && originColumn == destinationColumn) // move verticale
+				if(originRow != destinationRow && originColumn == destinationColumn) // vertical move
 				{
 					int start = 0;
 					int end = 0;
-					if(destinationRow > originRow) // move vers le haut
+					if(destinationRow > originRow) // upper move
 					{
 						start = 8 - destinationRow;
 						end = 8 - originRow;
 					}
 					else 
-					if(originRow > destinationRow) // move vers le bas
+					if(originRow > destinationRow) // down move
 					{
 						start = 8 - originRow;
 						end = 8 - destinationRow;
@@ -190,14 +190,6 @@ public class MoveGenerator implements IMoveGenerator {
 				}
 			}
 			// END VERIFY
-			
-			/*if (( i > LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE || i <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE) || 
-					( j > LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE || j <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE  ) &&
-					board[i][j].getType() != color && m.getOrigin() != (m.getDestination())){
-				return true;
-			}*/
-			//if(isValid)
-				//System.out.println("Move" + m.getOrigin() + m.getDestination() + " is " + isValid);
 			return isValid;
 		}
 		return false;
@@ -208,8 +200,6 @@ public class MoveGenerator implements IMoveGenerator {
 	 * @see interfaces.IMoveGenerator#makeMove(model.Piece[][], java.lang.String, java.lang.String, int)
 	 */
 	public Piece[][] makeMove(Piece board[][], Move move, int type) {
-
-		//System.out.println(move.getOrigin().charAt(1) + move.getOrigin().charAt(0));
 		int rowStart = Helpers.convertRowChartoInt(move.getOrigin().charAt(1));
 		int colunmStart = Helpers.convertColunmCharToInt(move.getOrigin().charAt(0));
 
@@ -223,9 +213,7 @@ public class MoveGenerator implements IMoveGenerator {
 		return board;
 	}
 
-	@Override
 	public ArrayList<Move> generatePossibleMoves(Piece[][] board, int type) {
-		// TODO Auto-generated method stub
 		ArrayList<Move> moves = new ArrayList<Move>();
 
 		for (int i = 0; i <= board.length - 1; i++)
@@ -233,8 +221,7 @@ public class MoveGenerator implements IMoveGenerator {
 				if(board[i][j].getType() == type){
 					for( int direction : possibleDirections ){
 						Move move = createMoveByDirection( board, i, j, direction, getNumberOfPieceByActionLine( i, j, direction, board ), type );
-						//if(move != null)
-						//	System.out.println(" is " + isMoveValid( move, type, board ));
+
 						if ( isMoveValid( move, type, board ) )
 							moves.add( move );
 					}
@@ -243,15 +230,8 @@ public class MoveGenerator implements IMoveGenerator {
 		return moves;
 	}
 
-	@Override
-	public ArrayList<Move> generatePossibleCaptures(Piece[][] board, int type) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public Move createMoveByDirection( Piece [][] board, int i, int j, int direction, int distance, int playerColor ){
 
-		
 		int currentColunm = j;
 		int currentRow = i;
 		
@@ -293,9 +273,6 @@ public class MoveGenerator implements IMoveGenerator {
 			i += distance;
 			break;
 		}
-
-		//System.out.print("New move" + Helpers.convertColunmIntToLetter( currentColunm ) + String.valueOf( 8 - currentRow ) + 
-			//	Helpers.convertColunmIntToLetter( j ) + String.valueOf( 8 - i ));
 		
 		if (  (i >= LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE && i <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE - 1)  &&
 		   (  j >= LOAConstants.BOARD_UPPER_AND_BOTTOM_SIDE && j <= LOAConstants.BOARD_RIGHT_AND_LEFT_SIDE - 1 )  ){			
@@ -354,7 +331,7 @@ public class MoveGenerator implements IMoveGenerator {
 			case LOAConstants.BOTTOM_LEFT:
 				startY = currentColunm;
 				startX = currentRow;
-				counter++; // lui-meme
+				counter++;
 				
 				// go bottom left from start
 				startX++;
@@ -384,14 +361,13 @@ public class MoveGenerator implements IMoveGenerator {
 					startX--;
 					startY++;
 				}
-				//System.out.print("Counter is " + counter + " for ");
 				break;
 
 			case LOAConstants.BOTTOM_RIGHT:
 			case LOAConstants.UPPER_LEFT:				
 				startY = currentColunm;
 				startX = currentRow;		
-				counter++; // lui-meme
+				counter++;
 				
 				// go upper left from start
 				startY--;
@@ -421,7 +397,6 @@ public class MoveGenerator implements IMoveGenerator {
 					startY++;
 					startX++;
 				}	
-				//System.out.print("Counter is " + counter + " for ");
 				break;
 			}			
 		}

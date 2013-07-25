@@ -1,5 +1,6 @@
 package constants;
 
+/*This class contains all the constant used in the program*/
 public class LOAConstants {
 	
 	public static final int PIECE_TYPE_WHITE = 4;

@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import model.*;
 
 /**
- * 
- * @author Regison
- *
+ * This interface define all the functions for the move generator
  */
 public interface IMoveGenerator {
 
@@ -43,15 +41,6 @@ public interface IMoveGenerator {
 	ArrayList<Move> generatePossibleMoves(Piece[][]board, int type);
 	/**
 	 * 
-	 * @param board
-	 * @return
-	 */
-	ArrayList<Move> generatePossibleCaptures(Piece [][]board, int type );
-	/**
-	 * 
-	 * @param row
-	 * @param colunm
-	 * @param direction
 	 * @param board
 	 * @return
 	 */

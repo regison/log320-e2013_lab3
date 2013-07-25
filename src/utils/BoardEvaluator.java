@@ -4,6 +4,8 @@ import constants.LOAConstants;
 import model.Piece;
 import interfaces.IEvaluator;
 
+/*This class goes with the MiniMaxAlphaBeta class. It evaluates the scores for each move.
+ * This class also determine which player win the game (all pieces are connected together)*/
 public class BoardEvaluator{
 
 	public int evalutate(Piece [][] board, int pieceColor) {
